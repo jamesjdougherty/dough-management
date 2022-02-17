@@ -3,13 +3,14 @@ package com.doughdesgin.doughmanagement.controllers;
 import com.doughdesgin.doughmanagement.services.DoughDevService;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class DoughDevController {
     private final Logger logger;
-    private DoughDevService doughDevService;
+    private final DoughDevService doughDevService;
 
     @Autowired
     DoughDevController(Logger logger, DoughDevService doughDevService) {
@@ -22,6 +23,7 @@ public class DoughDevController {
         logger.info("Test logger message");
     }
 
+    @CrossOrigin
     @GetMapping("api/doughdev/findBlog")
     public String findBlog() {
         return this.doughDevService.findBlog();
