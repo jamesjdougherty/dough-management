@@ -1,24 +1,41 @@
 package com.doughdesgin.doughmanagement.controllers;
 
 import com.doughdesgin.doughmanagement.services.DoughDevService;
-import com.doughdesgin.doughmanagement.services.DoughDevServiceImpl;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@WebMvcTest(DoughDevController.class)
 public class DoughDevControllerTests {
 
-    Logger logger;
+    @Autowired
+    private MockMvc mockMvc;
 
-    @Disabled
+    @MockBean
+    private DoughDevService doughDevService;
+
+    @MockBean
+    private Logger logger;
+
+    @BeforeEach
+    void setup() {
+    }
+
     @Test
-    void endpoint_returns_blog_post() {
-        DoughDevService service = new DoughDevServiceImpl();
-        DoughDevController controller = new DoughDevController(this.logger, service);
-
-        String response = controller.findBlog();
-
-        Assertions.assertEquals("Blog post returned", response);
+    @DisplayName("GET returns a 200 response status")
+    void endpoint_returns_blog_post() throws Exception {
+        when(doughDevService.findBlog()).thenReturn("Valid blog post");
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/api/doughdev/findBlog"))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 }
