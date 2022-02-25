@@ -20,6 +20,6 @@ public class DoughDevServiceImpl implements DoughDevService {
 
     @Override
     public int saveBlog(String blog) {
-        return 0;
+        return blogPostRepository.saveBlog(blog);
     }
 }

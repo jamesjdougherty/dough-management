@@ -32,10 +32,12 @@ public class DoughDevController {
     @CrossOrigin
     @PostMapping("saveBlog")
     public int save(@RequestBody String blog) {
-        logger.info(String.format("Dough Management API received request to save blog post: %s", blog));
+        logger.info("Dough Management API received request to save blog post");
 
         try {
-            return doughDevService.saveBlog(blog);
+            int blogId = doughDevService.saveBlog(blog);
+            logger.info("Successfully saved blog id: " + blogId);
+            return blogId;
         } catch (Exception e) {
             logger.error(String.format("Error: %s has occurred attempting to save blog post", e));
             return -1;
