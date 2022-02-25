@@ -3,11 +3,11 @@ package com.doughdesgin.doughmanagement.controllers;
 import com.doughdesgin.doughmanagement.services.DoughDevService;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("api/doughdev")
 public class DoughDevController {
     private final Logger logger;
     private final DoughDevService doughDevService;
@@ -18,15 +18,27 @@ public class DoughDevController {
         this.doughDevService = doughDevService;
     }
 
-    @GetMapping("api/doughdev/log")
+    @GetMapping("log")
     public void logMessage() {
         logger.info("Test logger message");
     }
 
     @CrossOrigin
-    @GetMapping("api/doughdev/findBlog")
+    @GetMapping("findBlog")
     public String findBlog() {
         return this.doughDevService.findBlog();
     }
 
+    @CrossOrigin
+    @PostMapping("saveBlog")
+    public int save(@RequestBody String blog) {
+        logger.info(String.format("Dough Management API received request to save blog post: %s", blog));
+
+        try {
+            return doughDevService.saveBlog(blog);
+        } catch (Exception e) {
+            logger.error(String.format("Error: %s has occurred attempting to save blog post", e));
+            return -1;
+        }
+    }
 }

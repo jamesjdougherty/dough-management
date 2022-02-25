@@ -17,4 +17,9 @@ public class DoughDevServiceImpl implements DoughDevService {
 
         return blogPost.getPost();
     }
+
+    @Override
+    public int saveBlog(String blog) {
+        return 0;
+    }
 }
